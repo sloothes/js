@@ -1,0 +1,78 @@
+//  jquery-update-engine.js (v2)
+
+    var debugMode;
+
+//  jQuery updating.
+//  Every object that needs update has a coresponding "update dom element".
+//  When the "update dom element" has class "update", it trigger the object 
+//  "update" function. $(".update").update();
+
+    var bodySelector = "body";
+    var updatesSelector = "#updates";
+    $("body").append('<div class="hidden" id="updates"></div>');
+
+    $(updatesSelector).append('<input type="hidden" id="localPlayerOutfit">');
+    $(updatesSelector).append('<input type="hidden" id="world">');
+    $(updatesSelector).append('<input type="hidden" id="cameraControls">');
+    $(updatesSelector).append('<input type="hidden" id="keyInputControls">');
+    $(updatesSelector).append('<input type="hidden" id="joystick1Contols">');
+    $(updatesSelector).append('<input type="hidden" id="joystick2Contols">');
+    $(updatesSelector).append('<input type="hidden" id="ThreeAnimationHandler">');
+
+    var localPlayerOutfitSelector = "#localPlayerOutfit";
+    var worldSelector = "#world";
+    var cameraControlsSelector = "#cameraControls";
+    var keyInputControlsSelector = "#keyInputControls";
+    var joystick1ContolsSelector  = "#joystick1Contols";
+    var joystick2ContolsSelector = "#joystick2Contols";
+    var ThreeAnimationHandlerSelector = "#ThreeAnimationHandler";
+
+    var $outfitUpdater = $(localPlayerOutfitSelector).get(0);
+    var $worldUpdater = $(worldSelector).get(0);
+    var $cameraUpdater = $(cameraControlsSelector).get(0);
+    var $keyInputUpdater = $(keyInputControlsSelector).get(0);
+    var $controlsJoystickUpdater = $(joystick1ContolsSelector).get(0);
+    var $cameraJoystickUpdater = $(joystick2ContolsSelector).get(0);
+    var $animationHandlerUpdater = $(ThreeAnimationHandlerSelector).get(0);
+
+    $outfitUpdater.update = function(delta){ localPlayer.outfit.update(); };
+    $worldUpdater.update = function(delta){ world.step( delta ); };
+    $cameraUpdater.update = function(delta){ cameraControls.update(); };
+    $keyInputUpdater.update = function(delta){ keyInputControls.update(); };
+    $controlsJoystickUpdater.update = function(delta){ joystick1.update(); };
+    $cameraJoystickUpdater.update = function(delta){ joystick2.update(); };
+    $animationHandlerUpdater.update = function(delta){ THREE.AnimationHandler.update( delta ); };
+
+    $(worldSelector).addClass("update");
+    $(cameraControlsSelector).addClass("update");
+    $(keyInputControlsSelector).addClass("update");
+    $(joystick1ContolsSelector).addClass("update");
+    $(joystick2ContolsSelector).addClass("update");
+    $(localPlayerOutfitSelector).addClass("update");
+    $(ThreeAnimationHandlerSelector).addClass("update");
+
+
+//  jQuery updating.
+
+//  Every object that needs update has a coresponding "update dom element".
+//  When the "update dom element" has class "update", it trigger the object 
+//  "update" function. $(".update").update();
+
+/*  (moved to runtime.js)
+
+    var $update = $("input[type=hidden].update");
+    var $timeout = $("input[type=hidden].timeout");
+
+    updateClock = new THREE.Clock();
+
+    function update() {
+
+        var delta = updateClock.getDelta();
+        var time  = updateClock.getElapsedTime();
+
+        for ( var i = 0; i < $update.length; i++ ){
+            !!$update[i].update && $update[i].update(delta);
+        }
+
+    }
+*/
