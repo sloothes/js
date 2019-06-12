@@ -1,5 +1,10 @@
 //  jquery-render-engine.js (v2)
 
+//  jQuery rendering.
+
+//  Every object that needs render has a coresponding "render dom element".
+//  When the "render dom element" has class "render", it trigger the object 
+//  "render" function.
 
     var bodySelector = "body";
     var rendersSelector = "#renders";
@@ -35,22 +40,3 @@
 
 //  $(waterSelector).addClass("render");
 
-
-//  jQuery rendering.
-
-//  Every object that needs render has a coresponding "render dom element".
-//  When the "render dom element" has class "render", it trigger the object 
-//  "render" function.
-
-/*  (moved to runtime.js)
-
-    var $render = $("input[type=hidden].render");
-
-    function render(){
-
-        for (var i = 0; i < $render.length; i++){
-            !!$render[i].render && $render[i].render();
-        }
-
-    }
-*/
