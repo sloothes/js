@@ -112,8 +112,8 @@
     ]).then(function(){
 
     //  Start up.
-        mylocalPlayerHandler( store("Sex") || "/gender/male" );
-        mylocalPlayerHandler( "/turn/back" );
+        localPlayerHandler( "/turn/back" );
+        localPlayerHandler( store("Sex") || "/gender/male" );
 
     }).catch(function(err){
         console.error(err);
