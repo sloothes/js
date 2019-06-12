@@ -51,28 +51,3 @@
     $(localPlayerOutfitSelector).addClass("update");
     $(ThreeAnimationHandlerSelector).addClass("update");
 
-
-//  jQuery updating.
-
-//  Every object that needs update has a coresponding "update dom element".
-//  When the "update dom element" has class "update", it trigger the object 
-//  "update" function. $(".update").update();
-
-/*  (moved to runtime.js)
-
-    var $update = $("input[type=hidden].update");
-    var $timeout = $("input[type=hidden].timeout");
-
-    updateClock = new THREE.Clock();
-
-    function update() {
-
-        var delta = updateClock.getDelta();
-        var time  = updateClock.getElapsedTime();
-
-        for ( var i = 0; i < $update.length; i++ ){
-            !!$update[i].update && $update[i].update(delta);
-        }
-
-    }
-*/
