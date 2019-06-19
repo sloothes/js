@@ -34,17 +34,17 @@
         var object = loader.parse( json );
 
         var geometry = object.geometry;
-        var material = new THREE.MeshStandardMaterial({skinning:true});
-
+        geometry.sourceFile = json.sourceFile;
         geometry.computeFaceNormals();
         geometry.computeVertexNormals();
         geometry.computeBoundingBox();
         geometry.computeBoundingSphere();
 
+        var material = new THREE.MeshStandardMaterial({skinning:true});
         var skinned =  new THREE.SkinnedMesh( geometry, material );
 
         skinned.renderDepth = 1;
-        skinned.frustumCulled = false; // important!
+        skinned.frustumCulled = false;
         skinned.scale.set( 1, 1, 1 );
         skinned.position.set( 0, 0, 0 );
         skinned.rotation.set( 0, 0, 0 ); 
@@ -55,61 +55,68 @@
 
 //  Cache skinned meshes (from indexedDB).
 
-    Promise.all([
+    (async function(){
 
     //  BONES.
 
-        db.collection("skeleton")
+        bones = await db.collection("skeleton")
         .findOne({_id:"bones"}, function(err, doc){
             if (err) throw err;
         }).then(function(json){
-            bones = json;
-            debugMode && console.log({"bones": bones})
+            return json; // bones = json;
         }).catch(function(err){
             console.error(err);
-        }),
+        });
 
     //  MALE.
 
-        db.collection("male").find()
-        .toArray(function(err, docs){
+        await db.collection("male").find()
+        .forEach( async function(doc){
+
+            var key = doc.name;
+            var json = {[key]:doc};
+            var object = await recoverfromJson(json, key);
+            male[key] = object[key];
+
+        }, function(err){
             if (err) throw err;
-        }).then(function(docs){
-            docs.forEach(function(json){
-                male[json._id] = loadSkinnedFrom(json);
-            });
-            debugMode && console.log({"male": male})
         }).catch(function(err){
             console.error(err);
-        }),
+        });
 
     //  FEMALE.
 
-        db.collection("female").find()
-        .toArray(function(err, docs){
+        await db.collection("female").find()
+        .forEach( async function(doc){
+
+            var key = doc.name;
+            var json = {[key]:doc};
+            var object = await recoverfromJson(json, key);
+
+            object[key].name = doc.name;
+            female[key] = object[key];
+
+        }, function(err){
             if (err) throw err;
-        }).then(function(docs){
-            docs.forEach(function(json){
-                female[json._id] = loadSkinnedFrom(json);
-            });
-            debugMode && console.log({"female": female})
         }).catch(function(err){
             console.error(err);
-        }),
+        });
 
     //  SKELETON.
 
-        db.collection("skeleton")
+        skeleton = await db.collection("skeleton")
         .findOne({_id:"skeleton"}, function(err, doc){
             if (err) throw err;
-        }).then(function(json){
-            skeleton = loadSkinnedFrom(json);
-            debugMode && console.log({"skeleton": skeleton})
+        }).then(async function(doc){
+            var key = doc.name;
+            var json = {[key]:doc};
+            var object = await recoverfromJson(json, key);
+            return object[key];
         }).catch(function(err){
             console.error(err);
-        }),
+        });
 
-    ]).then(function(){
+    })().then(function(){
 
     //  Start up.
         localPlayerHandler( "/turn/back" );
