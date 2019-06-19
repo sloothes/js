@@ -8,7 +8,8 @@
         male:       true,
         female:     true,
         skeleton:   true,
-        gallery:    true,
+        materials:  true,
+        textures:   true,
         animations: true,
 
     });
