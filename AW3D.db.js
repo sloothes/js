@@ -36,8 +36,8 @@
 
     UserDB = new zango.Db( DB_NAME, VERSION, {
 
-        materials:  true,
         textures:   true,
+        materials:  true,
         animations: true,
 
     });
