@@ -53,3 +53,90 @@
     });
 
 })();
+
+//  indexedDB helpers.js
+
+function exportCollection( name ){
+
+//  throws error if collection not exist!
+    db.collection( name );  // important!
+
+    db.collection(name).find()
+    .toArray(function(err, docs){
+        if (err) throw err;
+        if ( !docs.length )  
+            throw `collection ${name} is empty`;
+    }).then(function(docs){ 
+        return JSON.stringify(docs);
+    }).then(function(data){ 
+        debugMode && console.log( data );
+
+    //  Save to desktop.
+        var a = document.createElement("a");
+        var file = new Blob([data], {type: "text/json"});
+        a.href = URL.createObjectURL(file);
+        a.download = name + ".json";
+        a.click();
+
+        return a.href; // OK.
+
+    }).then(function(objectURL){
+        URL.revokeObjectURL(objectURL); // OK.
+
+    }).catch(function(err){
+        console.error(err);
+    });
+
+}
+
+function exportDatabase(db){
+
+    (async function(db){
+
+        if ( !db._open ) {
+            throw `Database ${db.name} is not open.`;
+        }
+
+        var json = {};
+
+        for ( var name in db._cols ){
+
+            await db.collection(name).find()
+            .toArray(function(err, docs){
+                if (err) throw err;
+            }).then(function(docs){ 
+                if ( !docs.length ) return;
+                json[ name ] = docs;
+                debugMode && console.log( `${name}:`, json[name] );
+            }).catch(function(err){
+                console.error(err);
+            });
+
+        }
+
+        debugMode && console.log( "json:", json );
+
+        return JSON.stringify( json );
+
+    })(db).then(function(data){
+
+        debugMode && console.log(data);
+
+    //  Save to file.
+        var a = document.createElement("a");
+        var file = new Blob([data], {type: "text/json"});
+        a.href = URL.createObjectURL(file);
+        a.download = "database-export.json";
+        a.click();
+
+        return a.href;
+
+    }).then(function(objectURL){
+        URL.revokeObjectURL(objectURL);
+
+    }).catch(function(err){
+        console.error(err);
+    });
+
+}
+
