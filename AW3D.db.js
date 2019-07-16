@@ -31,13 +31,14 @@
 
 (function(){
 
-    const VERSION = 1;
+    const VERSION = 2;
     const DB_NAME = "USER";
 
     UserDB = new zango.Db( DB_NAME, VERSION, {
 
-        textures:   true,
-        materials:  true,
+        outfits   : true,
+        textures  : true,
+        materials : true,
         animations: true,
 
     });
