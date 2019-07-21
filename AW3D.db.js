@@ -31,7 +31,7 @@
 
 (function(){
 
-    const VERSION = 2;
+    const VERSION = 3;
     const DB_NAME = "USER";
 
     UserDB = new zango.Db( DB_NAME, VERSION, {
@@ -40,6 +40,7 @@
         textures  : true,
         materials : true,
         animations: true,
+        products:   true,
 
     });
 
@@ -75,7 +76,7 @@ function exportCollection( name ){
         var a = document.createElement("a");
         var file = new Blob([data], {type: "text/json"});
         a.href = URL.createObjectURL(file);
-        a.download = name + ".json";
+        a.download = name + "-" + db.name + "v" + db.version + ".json";
         a.click();
 
         return a.href; // OK.
@@ -126,13 +127,46 @@ function exportDatabase(db){
         var a = document.createElement("a");
         var file = new Blob([data], {type: "text/json"});
         a.href = URL.createObjectURL(file);
-        a.download = "database-export.json";
+        a.download = db.name + "v" + db.version + "-export.json";
         a.click();
 
         return a.href;
 
     }).then(function(objectURL){
         URL.revokeObjectURL(objectURL);
+
+    }).catch(function(err){
+        console.error(err);
+    });
+
+}
+
+function exportUSERCollection( name ){
+
+//  throws error if collection not exist!
+    UserDB.collection( name );  // important!
+
+    UserDB.collection(name).find()
+    .toArray(function(err, docs){
+        if (err) throw err;
+        if ( !docs.length )  
+            throw `collection ${name} is empty`;
+    }).then(function(docs){ 
+        return JSON.stringify(docs);
+    }).then(function(data){ 
+        debugMode && console.log( data );
+
+    //  Save to desktop.
+        var a = document.createElement("a");
+        var file = new Blob([data], {type: "text/json"});
+        a.href = URL.createObjectURL(file);
+        a.download = name + "-" + UserDB.name + "v" + UserDB.version + ".json";
+        a.click();
+
+        return a.href; // OK.
+
+    }).then(function(objectURL){
+        URL.revokeObjectURL(objectURL); // OK.
 
     }).catch(function(err){
         console.error(err);
