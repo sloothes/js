@@ -43,7 +43,7 @@
         products:   true,
 
     });
-
+/*
     UserDB.open(function(err, database){
         if (err) console.error(err);
     }).then( function(){
@@ -52,7 +52,7 @@
     }).catch(function(err){
         console.error(err);
     });
-
+*/
 })();
 
 //  indexedDB helpers.js
@@ -143,30 +143,41 @@ function exportDatabase(db){
 
 function exportUSERCollection( name ){
 
-//  throws error if collection not exist!
-    UserDB.collection( name );  // important!
+    UserDB.open(function(err, database){
+        if (err) console.error(err);
+    }).then( function(db){
 
-    UserDB.collection(name).find()
-    .toArray(function(err, docs){
-        if (err) throw err;
-        if ( !docs.length )  
-            throw `collection ${name} is empty`;
-    }).then(function(docs){ 
-        return JSON.stringify(docs);
-    }).then(function(data){ 
-        debugMode && console.log( data );
+        debugMode && console.log( 
+        `Database ${db.name} (v${db.version}) ready for export.`);
 
-    //  Save to desktop.
-        var a = document.createElement("a");
-        var file = new Blob([data], {type: "text/json"});
-        a.href = URL.createObjectURL(file);
-        a.download = name + "-" + UserDB.name + "v" + UserDB.version + ".json";
-        a.click();
+    //  throws error if collection not exist!
+        db.collection( name );  // important!
 
-        return a.href; // OK.
+        db.collection(name).find()
+        .toArray(function(err, docs){
+            if (err) throw err;
+            if ( !docs.length )  
+                throw `collection ${name} is empty`;
+        }).then(function(docs){ 
+            return JSON.stringify(docs);
+        }).then(function(data){ 
+            debugMode && console.log( data );
 
-    }).then(function(objectURL){
-        URL.revokeObjectURL(objectURL); // OK.
+        //  Save to desktop.
+            var a = document.createElement("a");
+            var file = new Blob([data], {type: "text/json"});
+            a.href = URL.createObjectURL(file);
+            a.download = name + "-" + db.name + "v" + db.version + ".json";
+            a.click();
+
+            return a.href; // OK.
+
+        }).then(function(objectURL){
+            URL.revokeObjectURL(objectURL); // OK.
+
+        }).catch(function(err){
+            console.error(err);
+        });
 
     }).catch(function(err){
         console.error(err);
