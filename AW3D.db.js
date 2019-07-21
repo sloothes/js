@@ -27,34 +27,6 @@
 
 })();
 
-//  USER.db.js
-
-(function(){
-
-    const VERSION = 3;
-    const DB_NAME = "USER";
-
-    UserDB = new zango.Db( DB_NAME, VERSION, {
-
-        outfits   : true,
-        textures  : true,
-        materials : true,
-        animations: true,
-        products:   true,
-
-    });
-/*
-    UserDB.open(function(err, database){
-        if (err) console.error(err);
-    }).then( function(){
-        debugMode && console.log( 
-        `Database ${UserDB.name} (v${UserDB.version}) ready for use.`);
-    }).catch(function(err){
-        console.error(err);
-    });
-*/
-})();
-
 //  indexedDB helpers.js
 
 function exportCollection( name ){
@@ -141,6 +113,36 @@ function exportDatabase(db){
 
 }
 
+
+//  USER.db.js
+
+/*
+(function(){
+
+    const VERSION = 3;
+    const DB_NAME = "USER";
+
+    UserDB = new zango.Db( DB_NAME, VERSION, {
+
+        outfits   : true,
+        textures  : true,
+        materials : true,
+        animations: true,
+        products:   true,
+
+    });
+
+    UserDB.open(function(err, database){
+        if (err) console.error(err);
+    }).then( function(){
+        debugMode && console.log( 
+        `Database ${UserDB.name} (v${UserDB.version}) ready for use.`);
+    }).catch(function(err){
+        console.error(err);
+    });
+
+})();
+
 function exportUSERCollection( name ){
 
     UserDB.open(function(err, database){
@@ -184,4 +186,4 @@ function exportUSERCollection( name ){
     });
 
 }
-
+*/
