@@ -119,16 +119,16 @@ function exportDatabase(db){
 /*
 (function(){
 
-    const VERSION = 3;
+    const VERSION = 4;
     const DB_NAME = "USER";
 
     UserDB = new zango.Db( DB_NAME, VERSION, {
 
-        outfits   : true,
-        textures  : true,
-        materials : true,
         animations: true,
-        products:   true,
+        outfits   : true,
+        materials : true,
+        textures  : true,
+        products  : true,
 
     });
 
@@ -136,7 +136,7 @@ function exportDatabase(db){
         if (err) console.error(err);
     }).then( function(){
         debugMode && console.log( 
-        `Database ${UserDB.name} (v${UserDB.version}) ready for use.`);
+        `${UserDB.name} (v${UserDB.version}) ready for use.`);
     }).catch(function(err){
         console.error(err);
     });
