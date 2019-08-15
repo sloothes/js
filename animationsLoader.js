@@ -4,28 +4,6 @@
     var MaleAnimations   = {}; // object.
     var FemaleAnimations = {}; // object.
 
-    function fetchAnimation(options){
-
-        var url = options.url;
-        var key = options.key;
-        var name = options.name;
-        var object = options.obj;
-
-        fetch(url).then(function(response){
-            return response.json();
-        }).then(function(json){
-
-            object[ name ] = json;
-
-            if ( !!localPlayer && !!localPlayer.outfit ) {
-                localPlayer.outfit.AnimationsHandler.refresh();
-            }
-
-        });
-
-    }
-
-
 //  Load animations (from indexedDB).
 
     Promise.all([
@@ -95,3 +73,24 @@
 
     ]);
 
+
+    function fetchAnimation(options){
+
+        var url = options.url;
+        var key = options.key;
+        var name = options.name;
+        var object = options.obj;
+
+        fetch(url).then(function(response){
+            return response.json();
+        }).then(function(json){
+
+            object[ name ] = json;
+
+            if ( !!localPlayer && !!localPlayer.outfit ) {
+                localPlayer.outfit.AnimationsHandler.refresh();
+            }
+
+        });
+
+    }
