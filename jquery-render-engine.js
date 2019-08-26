@@ -6,16 +6,20 @@
 //  When the "render dom element" has class "render", it trigger the object 
 //  "render" function.
 
-    var bodySelector = "body";
-    var rendersSelector = "#renders";
-    $("body").append('<div class="hidden" id="renders"></div>');
+    const bodySelector = "body";
+    const waterSelector = "#water";
+    const rendersSelector = "#renders";
+    const rendererSelector = "#renderer";
 
+    $("body").append('<div class="hidden" id="renders"></div>');
+    $("#renders").append('<input type="hidden" id="water">');
+    $("#renders").append('<input type="hidden" id="renderer">');
+
+    const $rendererElement = $("#renderer").get(0);
+    const $waterRenderElement = $("#water").get(0);
 
 //  Scene.
 
-    var rendererSelector = "#renderer";
-    $("#renders").append('<input type="hidden" id="renderer">');
-    var $rendererElement = $(rendererSelector).get(0);
 
     $rendererElement.render = function(){ 
         renderer.render( scene, camera ); 
@@ -26,9 +30,6 @@
 
 //  Water.
 
-    var waterSelector = "#water";
-    $(rendersSelector).append('<input type="hidden" id="water">');
-    var $waterRenderElement = $(waterSelector).get(0);
 
     $waterRenderElement.render = function(){ 
         water.render(); 
@@ -38,5 +39,5 @@
         water.material.uniforms.time.value += 2.0 / 60.0;
     };
 
-//  $(waterSelector).addClass("render", "update");
+//  $(waterSelector).addClass("render update");
 
