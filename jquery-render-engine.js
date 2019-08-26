@@ -1,4 +1,4 @@
-//  jquery-render-engine.js (v2)
+//  jquery-render-engine.js (v2.0.1)
 
 //  jQuery rendering.
 
