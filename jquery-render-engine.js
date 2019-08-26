@@ -38,5 +38,5 @@
         water.material.uniforms.time.value += 2.0 / 60.0;
     };
 
-//  $(waterSelector).addClass("render");
+//  $(waterSelector).addClass("render", "update");
 
