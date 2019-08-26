@@ -6,7 +6,7 @@
 //  When the "render dom element" has class "render", it trigger the object 
 //  "render" function.
 
-    const bodySelector = "body";
+//  const bodySelector = "body";
     const waterSelector = "#water";
     const rendersSelector = "#renders";
     const rendererSelector = "#renderer";
