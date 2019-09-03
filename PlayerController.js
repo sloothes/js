@@ -174,6 +174,6 @@
 
     };
 
-    var localPlayer = new Player();
+    localPlayer = new Player();
     debugMode && console.log({"localPlayer": localPlayer});
 
