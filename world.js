@@ -42,6 +42,10 @@
 
     octree.importThreeMesh( ground ); // IMPORTANT //
 
+    if (localPlayer && localPlayer.controller) {
+        world.add( localPlayer.controller ); // important! danger!
+    }
+
 //  Octree helpers.
 
     var octMeshHelpers = [];
