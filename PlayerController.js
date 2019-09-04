@@ -93,7 +93,7 @@
         this.controller.addEventListener("startJumping", onStartJumping);
 
     //  Add controller to world.
-        world.add( this.controller ); // important! danger!
+        world.add( this.controller ); // important!
 
         debugMode && console.log( 
             "world.characterPool length:", world.characterPool.length, 
