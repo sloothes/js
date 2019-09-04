@@ -92,8 +92,8 @@
         this.controller.addEventListener("endJumping",   onEndJumping);
         this.controller.addEventListener("startJumping", onStartJumping);
 
-    //  Add controller to world. (moved to world.js)
-    //  if (world) world.add( this.controller ); // important! danger!
+    //  Add controller to world.
+        world.add( this.controller ); // important! danger!
 
         debugMode && console.log( 
             "world.characterPool length:", world.characterPool.length, 
