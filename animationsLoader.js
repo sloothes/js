@@ -1,8 +1,8 @@
 //  animationsLoader.js
 
-    var Animations       = {}; // object.
-    var MaleAnimations   = {}; // object.
-    var FemaleAnimations = {}; // object.
+    Animations       = {}; // object.
+    MaleAnimations   = {}; // object.
+    FemaleAnimations = {}; // object.
 
 //  Load animations (from indexedDB).
 

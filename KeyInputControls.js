@@ -1,6 +1,6 @@
 //  KeyInputControls.js
 
-    var keyInputControls = new MW.KeyInputControl();
+    keyInputControls = new MW.KeyInputControl();
 
     keyInputControls.On = function(){
         if ( !keyInputControls.isOff ) return;
