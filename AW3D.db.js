@@ -54,7 +54,7 @@ function exportCollection( name ){
 
     }).then(function(objectURL){
 
-        URL.revokeObjectURL(objectURL);.
+        URL.revokeObjectURL(objectURL);
 
     }).catch(function(err){
         console.error(err);
