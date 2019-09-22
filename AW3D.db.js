@@ -20,7 +20,7 @@
         if (err) console.error(err);
     }).then( function(){
         debugMode && console.log( 
-        `Database ${db.name} (v${db.version}) ready for use.`);
+        "Database "+db.name+" (v"+db.version+") ready for use.");
     }).catch(function(err){
         console.error(err);
     });
@@ -37,8 +37,7 @@ function exportCollection( name ){
     db.collection(name).find()
     .toArray(function(err, docs){
         if (err) throw err;
-        if ( !docs.length )  
-            throw `collection ${name} is empty`;
+        if ( !docs.length ) throw "collection " + name + " is empty";
     }).then(function(docs){ 
         return JSON.stringify(docs);
     }).then(function(data){ 
@@ -51,10 +50,11 @@ function exportCollection( name ){
         a.download = name + "-" + db.name + "v" + db.version + ".json";
         a.click();
 
-        return a.href; // OK.
+        return a.href;
 
     }).then(function(objectURL){
-        URL.revokeObjectURL(objectURL); // OK.
+
+        URL.revokeObjectURL(objectURL);.
 
     }).catch(function(err){
         console.error(err);
@@ -64,34 +64,37 @@ function exportCollection( name ){
 
 function exportDatabase(db){
 
-    (async function(db){
+    new Promise(function(resolve, reject){
 
-        if ( !db._open ) {
-            throw `Database ${db.name} is not open.`;
-        }
+        if ( !db._open ) throw "Database "+db.version+" is not open.";
 
         var json = {};
 
+        var promises = [];
+
         for ( var name in db._cols ){
 
-            await db.collection(name).find()
-            .toArray(function(err, docs){
-                if (err) throw err;
-            }).then(function(docs){ 
-                if ( !docs.length ) return;
-                json[ name ] = docs;
-                debugMode && console.log( `${name}:`, json[name] );
-            }).catch(function(err){
-                console.error(err);
-            });
+            promise.push( 
+                db.collection(name).find()
+                .toArray(function(err, docs){
+                    if (err) throw err;
+                }).then(function(docs){ 
+                    if ( !docs.length ) return;
+                    json[ name ] = docs;
+                    debugMode && console.log(name+":", json[name] );
+                }).catch(function(err){
+                    console.error(err);
+                })
+            )
 
         }
+        
+        Promise.all(promises).then(function(){
+            debugMode && console.log( "json:", json );
+            resolve( JSON.stringify( json ) );
+        });
 
-        debugMode && console.log( "json:", json );
-
-        return JSON.stringify( json );
-
-    })(db).then(function(data){
+    }).then(function(data){
 
         debugMode && console.log(data);
 
@@ -105,6 +108,7 @@ function exportDatabase(db){
         return a.href;
 
     }).then(function(objectURL){
+
         URL.revokeObjectURL(objectURL);
 
     }).catch(function(err){
@@ -135,8 +139,7 @@ function exportDatabase(db){
     UserDB.open(function(err, database){
         if (err) console.error(err);
     }).then( function(){
-        debugMode && console.log( 
-        `${UserDB.name} (v${UserDB.version}) ready for use.`);
+        debugMode && console.log(UserDB.name+" (v"+UserDB.version+") ready for use.");
     }).catch(function(err){
         console.error(err);
     });
@@ -150,7 +153,7 @@ function exportUSERCollection( name ){
     }).then( function(db){
 
         debugMode && console.log( 
-        `Database ${db.name} (v${db.version}) ready for export.`);
+        "Database "+db.name+" (v"+db.version+") ready for export.");
 
     //  throws error if collection not exist!
         db.collection( name );  // important!
@@ -158,8 +161,7 @@ function exportUSERCollection( name ){
         db.collection(name).find()
         .toArray(function(err, docs){
             if (err) throw err;
-            if ( !docs.length )  
-                throw `collection ${name} is empty`;
+            if ( !docs.length ) throw "collection "+name+" is empty";
         }).then(function(docs){ 
             return JSON.stringify(docs);
         }).then(function(data){ 
