@@ -1,6 +1,6 @@
 /* W3.JS 1.03 December 2017 by w3schools.com */
 "use strict";
-var w3 = {};
+w3 = {};
 w3.hide = function (sel) {
   w3.hideElements(w3.getElements(sel));
 };
