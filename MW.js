@@ -5,7 +5,7 @@
 * MIT License
 */
 
-var MW = {};
+MW = {};
 
 
 MW.triangle = {};
