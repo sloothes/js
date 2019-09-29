@@ -1,6 +1,6 @@
 //  MW cameraControl.js
 
-    var cameraControls = new MW.TPSCameraControl(camera, localPlayer.holder, {
+    cameraControls = new MW.TPSCameraControl(camera, localPlayer.holder, {
         el: renderer.domElement,               // html renderer element.
         offset: new THREE.Vector3( 0, 15, 0 ), // camera eye height.
         radius: 40,                            // default: 37 // (distance of the character to the camera).
