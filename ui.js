@@ -2,7 +2,7 @@
  * @author mrdoob / http://mrdoob.com/
  */
 
-var UI = {};
+UI = {};
 
 UI.Element = function ( dom ) {
 
