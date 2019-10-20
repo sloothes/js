@@ -22,7 +22,7 @@ UI.Texture = function ( mapping ) {
 	canvas.width = 32;
 	canvas.height = 16;
 	canvas.style.cursor = "pointer";
-	canvas.style.marginLeft = "5px";
+	canvas.style.marginLeft = "10px";
 //	canvas.style.marginRight = "5px";
 	canvas.style.border = "1px solid #888";
 	canvas.addEventListener( "click", function ( event ) {
