@@ -82,6 +82,34 @@ UI.Element.prototype = {
 
 	},
 
+	addClass: function () {
+
+		for ( var i = 0; i < arguments.length; i ++ ) {
+
+			var argument = arguments[ i ];
+
+			this.dom.classList.add( argument );
+
+		}
+
+		return this;
+
+	},
+
+	removeClass: function () {
+
+		for ( var i = 0; i < arguments.length; i ++ ) {
+
+			var argument = arguments[ i ];
+
+			this.dom.classList.remove( argument );
+
+		}
+
+		return this;
+
+	},
+
 	setStyle: function ( style, array ) {
 
 		for ( var i = 0; i < array.length; i ++ ) {
@@ -112,15 +140,19 @@ UI.Element.prototype = {
 
 };
 
-// properties
+//	properties.
 
-var properties = [ 
-	"position", "left", "top", "right", "bottom", "minWidth", "width", "height", "maxWidth", "maxHeight", "minWidth", "minHeight", 
-	"border", "borderLeft", "borderTop", "borderRight", "borderBottom", "borderColor", "display", "overflow", "margin", "marginLeft", 
-	"marginTop", "marginRight", "marginBottom", "padding", "paddingLeft", "paddingTop", "paddingRight", "paddingBottom", "color", 
-	"background", "backgroundColor", "opacity", "fontSize", "fontWeight", "textAlign", "textDecoration", "textTransform", "cursor", 
-	"float", "zIndex"
-];
+var properties = Object.keys(this.dom.style);
+
+/*
+	var properties = [ 
+		"position", "left", "top", "right", "bottom", "minWidth", "width", "height", "maxWidth", "maxHeight", "minWidth", "minHeight", 
+		"border", "borderLeft", "borderTop", "borderRight", "borderBottom", "borderColor", "display", "overflow", "margin", "marginLeft", 
+		"marginTop", "marginRight", "marginBottom", "padding", "paddingLeft", "paddingTop", "paddingRight", "paddingBottom", "color", 
+		"background", "backgroundColor", "opacity", "fontSize", "fontWeight", "textAlign", "textDecoration", "textTransform", "cursor", 
+		"float", "overflowX", "overflowY", "zIndex"
+	];
+*/
 
 properties.forEach( function ( property ) {
 
@@ -146,7 +178,17 @@ events.forEach( function ( event ) {
 
 	UI.Element.prototype[ method ] = function ( callback ) {
 
-		this.dom.addEventListener( event.toLowerCase(), callback.bind( this ), false );
+		var listener = callback.bind( this );
+
+		this.dom.addEventListener( event.toLowerCase(), listener, false );
+
+		this.off = off.bind( this, event );
+
+		function off( event ){
+
+			this.dom.removeEventListener( event.toLowerCase(), listener, false );
+
+		}
 
 		return this;
 
